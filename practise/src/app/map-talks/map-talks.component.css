@@ -1,0 +1,11 @@
+.charts-container{
+    display: block;
+}
+
+.container{
+    width: 98%;
+    padding: 0;
+    height: 75vh;
+    margin: 10px;
+    display: inline-block;
+}
