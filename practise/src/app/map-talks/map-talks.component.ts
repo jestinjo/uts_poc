@@ -7,7 +7,24 @@ import * as maptalks from 'maptalks';
   styleUrls: ['./map-talks.component.css']
 })
 export class MapTalksComponent implements OnInit {
-  @Input() markerPoint = [[-0.113049,51.498568],[-0.07890,51.50020],[-0.11836,51.48199],[-0.08532,51.46608]];
+  @Input() markerPoint = [{
+    location: [-0.113049, 51.498568],
+    name: 'Lambeth'
+  },
+  {
+    location: [-0.07890, 51.50020],
+    name: 'Butlers Warf'
+  },
+  {
+    location: [-0.11836, 51.48199],
+    name: 'Kenningtom'
+  },
+  {
+    location: [-0.08532, 51.46608],
+    name: 'Peckham'
+  }
+  ]
+
   @Input() layer3Point = [[-0.113049,51.498568],[-0.07890,51.50020],[-0.11836,51.48199],[-0.08532,51.46608]]
   @Input() layer2Point = [[-0.113049,51.498568],[-0.07890,51.50020],[-0.11836,51.48199],[-0.08532,51.46608]]
   map:any
@@ -59,13 +76,35 @@ export class MapTalksComponent implements OnInit {
     .addTo(this.map);
     
     value.forEach(element => {
-      this.markers.push(new maptalks.Marker(element,{
+      this.markers.push(new maptalks.Marker(element.location,{
         properties:{
           altitude:600,
           content:'',
           single:false,
           draggable:true
-        }
+        },
+        symbol : [
+          {
+            'textFaceName' : 'sans-serif',
+            'textName' : element.name+'\n\n',
+            'textSize' : 15,
+            'textDx'   : 0,
+            'textDy'   : -10,
+            'textFont' : null,
+            'textWeight'        : 'normal',
+            'textStyle'         : 'normal',
+            'textFill'          : '#34495e',
+            'textOpacity'       : 1,
+            'textHaloFill'      : '#fff',
+            'textHaloRadius'    : 5,
+            'textWrapWidth'     : null,
+            'textWrapCharacter' : '\n',
+            'textLineSpacing'   : 0,
+            'textHorizontalAlignment' : 'middle',
+            'textVerticalAlignment'   : 'middle',
+            'textAlign'               : 'center'
+          }
+        ]
       }));
     });
     
