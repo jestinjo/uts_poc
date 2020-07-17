@@ -29,7 +29,8 @@
               "src/styles.css"
             ],
             "scripts": [
-              "./node_modules/maptalks/dist/maptalks.min.js"
+              "./node_modules/maptalks/dist/maptalks.min.js",
+              "src/assets/mapTalkSelfDefined.js"
             ]
           },
           "configurations": {
@@ -97,7 +98,8 @@
               "src/styles.css"
             ],
             "scripts": [
-              "./node_modules/maptalks/dist/maptalks.min.js"
+              "./node_modules/maptalks/dist/maptalks.min.js",
+              "src/assets/mapTalkSelfDefined.js"
             ]
           }
         },
