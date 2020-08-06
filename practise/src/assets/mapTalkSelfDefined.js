@@ -1,11 +1,12 @@
 
 
 function infoClick(field,data) {
-    var event = new CustomEvent('infoBoxEvent',{
-        detail:{
+    // var event = new Event('infoBoxEvent',{
+       var detail ={
             field:field,
             data:data
         }
-    });
-    document.dispatchEvent(event);
+    // });
+    // document.dispatchEvent(event);
+    window.glabalback(detail);
 }

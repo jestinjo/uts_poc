@@ -100,3 +100,22 @@
     margin-top: -5px;
     height: 100px;
 }
+
+.signal-img{
+    display: inline-block;
+    position: relative;
+    top: -40px;
+    right: -200px;
+}
+
+.net-img{
+    width: 20px;
+}
+
+.marker-hover{
+    border: 1px solid black;
+    width: 200px;
+    border-radius: 5px;
+    background: white;
+    padding: 5px;
+}

@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   title = 'practise';
-  is3d = false;
+  is3d = true;
     
 }
 

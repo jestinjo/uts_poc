@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, NgZone } from '@angular/core';
 import * as maptalks from 'maptalks';
 import { TranslationWidth } from '@angular/common';
 
@@ -67,15 +67,23 @@ export class MapTalksPlainComponent implements OnInit {
   }
   ]
 
-  @Input() layerPoint = [[-0.113049,51.498568],[-0.07890,51.50020],[-0.11836,51.48199],[-0.08532,51.46608]]
+  @Input() layerPoint = [[[-0.113049,51.498568],[-0.07890,51.50020]],[[-0.08532,51.46608],[-0.11836,51.48199]]];
+  @Input() dashedPoint = [[[-0.11836,51.48199],[-0.113049,51.498568]],[[-0.07890,51.50020],[-0.08532,51.46608]]];
   map:any
   markerLayer:any;
   layerLine:any;
+  dashedLine:any;
   markers:any=[];
   infoBoxData:any;
   infoWindow:maptalks.ui.InfoWindow;
   
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef, private zone: NgZone) {
+    window["glabalback"] = (e) => {
+      zone.run(() => {
+        this.goBack(e);
+      });
+    }
+   }
   
   ngOnInit(): void {
     this.map = new maptalks.Map('canvas', {
@@ -91,13 +99,12 @@ export class MapTalksPlainComponent implements OnInit {
         attribution: ''
       })
     });
-    // console.log(this.map.getFov());
     this.renderMap();
   }
   
   renderMap(){
     this.addMarkers(this.markerPoint);
-    this.connectMarker(this.layerPoint);
+    this.connectMarker(this.layerPoint,this.dashedPoint);
   }
   
   addMarkers(value){
@@ -107,7 +114,9 @@ export class MapTalksPlainComponent implements OnInit {
       markerHTML = '<div class="marker"><div class="marker-text"><div class="marker-location">'+element.name+'</div><div class="marker-address">'+element.label+'</div></div><div class="marker-end"></div><div class="marker-inner"></div></div>'
       var marker = new maptalks.ui.UIMarker(element.location, {
         'single'        : false,
-        'content'       : markerHTML
+        'content'       : markerHTML,
+        enableAltitude : true,
+        
       });
       marker.addTo(this.map).show();
       this.infoBoxData[element.location[0]+'&'+element.location[1]] = element;
@@ -136,16 +145,24 @@ export class MapTalksPlainComponent implements OnInit {
     }); 
   }
   
-  connectMarker(layerPoint){
-    this.connectLayer(layerPoint);
-    new maptalks.VectorLayer('vectorLine', [this.layerLine]).addTo(this.map);
+  connectMarker(layerPoint,dashedPoint){
+    this.connectLayer(layerPoint,dashedPoint);
+    new maptalks.VectorLayer('vectorLine', [this.layerLine,this.dashedLine]).addTo(this.map);
   }
 
-  connectLayer(layerPoint){
-    this.layerLine = new maptalks.LineString(layerPoint, {
+  connectLayer(layerPoint,dashedPoint){
+    this.layerLine = new maptalks.MultiLineString(layerPoint, {
       symbol: {
         'lineColor' : '#000',
         'lineWidth' : 2, 
+      }
+    });
+    
+    this.dashedLine = new maptalks.MultiLineString(dashedPoint, {
+      symbol: {
+        'lineColor' : '#000',
+        'lineWidth' : 2, 
+        'lineDasharray' : [5],
       }
     });
   }
@@ -166,7 +183,7 @@ export class MapTalksPlainComponent implements OnInit {
     this.map.setPitch(45);
     this.map.setBearing(0);
     this.map.setFov(36.86989764584402);
-    var content = '<div class="map-info-box"><div class="info-box-label" onclick="infoClick(\'hello\',\'hello\')"><div class="info-box-header">NF Name</div>'+
+    var content = '<div class="map-info-box"><div class="info-box-label" onclick="infoClick(\'NF Name\','+''+')"><div class="info-box-header">NF Name</div>'+
     '<div class="info-box-value info-box-under">'+this.infoBoxData[id].label+'</div></div><div class="info-box-label"><div class="info-box-header">TID</div>'+
     '<div class="info-box-value info-box-under">'+this.infoBoxData[id].label2+'</div></div><div class="info-box-label half">'+
     '<div class="info-box-header">CLU</div><div class="info-box-value">'+this.infoBoxData[id].label3+'</div></div>'+
@@ -176,7 +193,8 @@ export class MapTalksPlainComponent implements OnInit {
     this.infoBoxData[id].label6+'</div></div><div class="info-box-sub"><div class="info-box-label half"><div class="info-box-header">State</div><div class="info-box-value">'+
     this.infoBoxData[id].label7+'</div></div><div class="info-box-label half"><div class="info-box-header">Subnet</div><div class="info-box-value">'+
     this.infoBoxData[id].label8+'</div></div><div class="info-box-label half"><div class="info-box-header">End</div><div class="info-box-value">'+this.infoBoxData[id].label9+
-    '</div></div><div class="info-box-label half"><div class="info-box-header">Port</div><div class="info-box-value">'+this.infoBoxData[id].label10+'</div></div></div></div>'
+    '</div></div><div class="info-box-label half"><div class="info-box-header">Port</div><div class="info-box-value">'+this.infoBoxData[id].label10+'</div></div></div></div>'+
+    '<div class="signal-img" onclick="netWorkClick()"><img class="net-img"src="assets/img/maptalks/network.svg"></div>'
 
     var dxdyx = this.getDxDy(this.map.getZoom());
     var options = {
@@ -250,5 +268,9 @@ export class MapTalksPlainComponent implements OnInit {
         dy:380
       });
     }
+  }
+
+  goBack(e){
+    console.log(e)
   }
 }
