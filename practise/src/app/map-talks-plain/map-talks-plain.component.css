@@ -112,3 +112,14 @@
     margin-top: -5px;
     height: 100px;
 }
+
+.signal-img{
+    display: inline-block;
+    position: relative;
+    top: -40px;
+    right: -200px;
+}
+
+.net-img{
+    width: 20px;
+}
