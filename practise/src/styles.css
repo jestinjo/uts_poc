@@ -1,4 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+.link {
+    stroke: #aaa;
+  }
+  
+  .node text {
+  stroke:#333;
+  cursor:pointer;
+  }
+  
+  .node circle{
+  stroke:#fff;
+  stroke-width:3px;
+  fill:#555;
+  }
+
+  .bar{
+    display: inline-block;
+    background-color: crimson;
+    width: 100px;
+    height: 400px;
+    margin-right: 5px;
+  }
+
+  .graph-svg{
+      background-attachment: #f7f7f7;
+  }
+
+
 .marker{
     flex-wrap: wrap;
     width: 160px;
