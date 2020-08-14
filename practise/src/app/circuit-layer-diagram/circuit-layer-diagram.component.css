@@ -1,0 +1,16 @@
+.clr-container{
+    padding-top: 10px;
+}
+.clr-header{
+    display: flex;
+}
+.icon-group{
+    display: flex;
+    place-content: space-around;
+}
+.circuit-header{
+    padding-left: 40px;
+}
+.clr-body{
+    /* overflow-x: scroll; */
+}
