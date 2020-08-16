@@ -58,7 +58,7 @@ export class MapTalksComponent implements OnInit {
   markers:any=[];
   infoBoxData:any=[];
   infoBoxDatax:any=[];
-  googleApiKey = 'AIzaSyACchdVy2lW2Fv0e2StJbivk1x45eCcCv0';
+  googleApiKey = '*';
   infoWindow: maptalks.ui.InfoWindow;
   
   constructor() { }
